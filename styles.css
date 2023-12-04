@@ -1,5 +1,30 @@
+html {
+    font-family: system-ui, sans-serif;
+}
+
 main {
     padding: 1rem;
     max-width: 70rem;
     margin: 4rem auto;
+}
+
+h1 {
+    font-size: 5rem;
+}
+
+a,
+p,
+code {
+    font-size: 2rem;
+}
+
+code {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+a {
+    color: salmon;
 }

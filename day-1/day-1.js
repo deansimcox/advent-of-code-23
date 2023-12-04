@@ -1010,16 +1010,15 @@ const part1 = (thing) => {
 };
 
 const replacedCodes = codes.trim()
-.replaceAll('oneight','18') // only used in part 2
-.replaceAll('twone','21') // only used in part 2
-.replaceAll('twone','21') // only used in part 2
-.replaceAll('threeight','38') // only used in part 2
-.replaceAll('fiveight','58') // only used in part 2
-.replaceAll('fiveight','58') // only used in part 2
-.replaceAll('sevenine','79') // only used in part 2
-.replaceAll('eightwo','82') // only used in part 2
-.replaceAll('eighthree','83') // only used in part 2
-.replaceAll('nineight','98') // only used in part 2
+.replaceAll('oneight','18')
+.replaceAll('twone','21')
+.replaceAll('threeight','38')
+.replaceAll('fiveight','58')
+.replaceAll('fiveight','58')
+.replaceAll('sevenine','79')
+.replaceAll('eightwo','82')
+.replaceAll('eighthree','83')
+.replaceAll('nineight','98')
 .replaceAll('one','1')
 .replaceAll('two','2')
 .replaceAll('three','3')
