@@ -129,38 +129,33 @@ const gameResults = input.split('\n').map(line => {
     return roundTally;
   });
 
-  // const totals = games.reduce((acc, game) => {
-  //   // console.log('acc', acc, game)
-  //   colors.forEach(color => {
-  //     if (color in acc) {
-  //       // console.log('adding game')
-  //       acc[color] += game?.[color]
-  //     }
-  //   });
-  //   return acc;
-  // }, {
-  //   red: 0,
-  //   green: 0,
-  //   blue: 0,
-  // });
+  const isPossible = games.every(game => colors.every((color) => game[color] <= maxes[color]));
 
-  // const isPossible = Object.entries(totals).every(([totalColor, totalAmount]) => totalAmount <= maxes[totalColor])
-  const isPossible = games.every(game => colors.every((color) => game[color] <= maxes[color]))
+  const largest = games.reduce((acc, game) => {
+    colors.forEach(color => {
+      if (acc[color] < game[color]) {
+        acc[color] = game[color]
+      }
+    });
+    return acc;
+  }, {
+    red: 0,
+    green: 0,
+    blue: 0,
+  });
+
+  const power = largest.red * largest.green * largest.blue;
 
   return {
     id,
     games,
-    // totals,
     isPossible,
+    largest,
+    power,
   }
 });
 
-const result = gameResults.reduce((acc, game) => {
-  if (game.isPossible) {
-    acc += parseInt(game.id);
-  }
-  return acc;
-}, 0)
+const result = gameResults.reduce((acc, game) => acc + game.power, 0)
 
 console.log('gameResults', gameResults);
 console.log('result', result);
