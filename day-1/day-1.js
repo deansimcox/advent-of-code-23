@@ -1043,6 +1043,4 @@ const result = allResults.reduce(
 
 console.log("result", result);
 
-const resultEl = document.getElementById('result');
-
-resultEl.innerHTML = result;
+document.getElementById('result').innerHTML = result;
