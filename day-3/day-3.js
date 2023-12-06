@@ -170,9 +170,50 @@ const lineResults = lines.map((line, lineIndex) => {
     }
 });
 
-const result = lineResults.reduce((acc, line) => acc += line.lineTotal, 0);
+const gearResults = lineResults.map((line, lineIndex) => {
+    return [...lines[lineIndex].matchAll(/[*]{1}/g)].map(star => {
+        const starStartIndex = star.index - 1;
+        const starEndIndex = star.index + star[0].length;
+        const previousLine = lineResults[lineIndex - 1];
+        const nextLine = lineResults[lineIndex + 1];
 
-console.log('lineResults', lineResults);
+        const matchesToTest = [
+            ...line.matches,
+            ...previousLine?.matches,
+            ...nextLine?.matches,
+        ];
+
+        const numberIsBetween = (number, min, max) => number >= min && number <= max
+
+        const adjacentMatches = matchesToTest.filter(match => {
+            const matchStartIndex = match.index;
+            const matchEndIndex = match.index + match[0].length;
+            return numberIsBetween(matchStartIndex, starStartIndex, starEndIndex) || numberIsBetween(matchEndIndex, starStartIndex, starEndIndex)
+        });
+
+        const isAdjacentToMatches = adjacentMatches.length === 2;
+
+        // console.log('isAdjacentToMatches', adjacentMatches);
+
+        const power = isAdjacentToMatches ? parseInt(adjacentMatches[0][0]) * parseInt(adjacentMatches[1][0]) : 0;
+
+        return {
+            isAdjacentToMatches,
+            adjacentMatches,
+            power,
+        };
+    });
+});
+
+const result = gearResults.filter(Boolean).reduce((acc, gears) => {
+    if (gears.length) {
+        const sum = gears.reduce((acc, gear) => acc += gear.power, 0);
+        acc += sum;
+    }
+    return acc;
+}, 0);
+
+console.log('gearResults', gearResults);
 
 console.log('result', result);
 
