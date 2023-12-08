@@ -173,7 +173,7 @@ const lineResults = lines.map((line, lineIndex) => {
 const gearResults = lineResults.map((line, lineIndex) => {
     return [...lines[lineIndex].matchAll(/[*]{1}/g)].map(star => {
         const starStartIndex = star.index - 1;
-        const starEndIndex = star.index + star[0].length;
+        const starEndIndex = star.index + 1
         const previousLine = lineResults[lineIndex - 1];
         const nextLine = lineResults[lineIndex + 1];
 
@@ -187,19 +187,29 @@ const gearResults = lineResults.map((line, lineIndex) => {
 
         const adjacentMatches = matchesToTest.filter(match => {
             const matchStartIndex = match.index;
-            const matchEndIndex = match.index + match[0].length;
+            const matchEndIndex = matchStartIndex + match[0].length - 1;
             return numberIsBetween(matchStartIndex, starStartIndex, starEndIndex) || numberIsBetween(matchEndIndex, starStartIndex, starEndIndex)
         });
 
-        const isAdjacentToMatches = adjacentMatches.length === 2;
+        const isAdjacentToMatches = adjacentMatches.length > 1;
+
+        if (adjacentMatches.length > 2) {
+            console.log('too many matches', {
+                adjacentMatches,
+                star: star,
+                previousLine: previousLine.matches,
+                line: line.matches,
+                nextLine: nextLine.matches,
+            })
+        }
 
         // console.log('isAdjacentToMatches', adjacentMatches);
 
-        const power = isAdjacentToMatches ? parseInt(adjacentMatches[0][0]) * parseInt(adjacentMatches[1][0]) : 0;
+        const power = isAdjacentToMatches ? adjacentMatches.reduce((acc, match) => acc = acc * parseInt(match[0]), 1) : 0;
 
         return {
             isAdjacentToMatches,
-            adjacentMatches,
+            adjacentMatches: adjacentMatches.toString(),
             power,
         };
     });
